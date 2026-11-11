@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DELMEN | Online Shopping</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f7f8fc;color:#172033}
+header{background:#102b55;color:white;padding:18px 5%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:15px}
+.logo{font-size:28px;font-weight:800;letter-spacing:2px}
+nav a{color:white;text-decoration:none;margin:0 10px;font-size:14px}
+.hero{padding:55px 6%;background:linear-gradient(120deg,#102b55,#2466b5);color:white}
+.hero h1{font-size:42px;margin:0 0 12px}
+.hero p{font-size:17px}
+.search{display:flex;max-width:550px;margin-top:25px}
+.search input{flex:1;padding:14px;border:0;border-radius:8px 0 0 8px;font-size:15px;min-width:0}
+.search button{padding:14px 20px;border:0;background:#f4b942;color:#172033;font-weight:bold;border-radius:0 8px 8px 0}
+section{padding:30px 5%}
+h2{margin-bottom:20px}
+.categories{display:flex;gap:12px;flex-wrap:wrap}
+.category{background:white;padding:16px 22px;border-radius:12px;box-shadow:0 2px 10px #0000000c}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px}
+.product{background:white;border-radius:13px;overflow:hidden;box-shadow:0 3px 14px #00000010}
+.product img{width:100%;height:170px;object-fit:cover;background:#e9edf5}
+.product-info{padding:14px}
+.price{font-weight:bold;color:#1455a0;font-size:19px}
+.product button{width:100%;padding:11px;border:0;background:#153d70;color:white;border-radius:7px;margin-top:10px}
+footer{text-align:center;background:#102b55;color:white;padding:25px}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">DELMEN</div>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#categories">Categories</a>
+    <a href="#products">Products</a>
+    <a href="#">Login</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <h1>Welcome to DELMEN</h1>
+  <p>Discover great products. Shop smart. Shop easy.</p>
+  <div class="search">
+    <input type="search" placeholder="Search products...">
+    <button>Search</button>
+  </div>
+</div>
+
+<section id="categories">
+  <h2>Shop by Category</h2>
+  <div class="categories">
+    <div class="category">👕 Fashion</div>
+    <div class="category">📱 Electronics</div>
+    <div class="category">🏠 Home</div>
+    <div class="category">⌚ Accessories</div>
+    <div class="category">🛍️ More</div>
+  </div>
+</section>
+
+<section id="products">
+  <h2>Featured Products</h2>
+  <div class="products">
+    <div class="product">
+      <img src="https://placehold.co/400x300?text=DELMEN+Product" alt="Product">
+      <div class="product-info">
+        <h3>DELMEN Test Product</h3>
+        <p class="price">₹100</p>
+        <button>Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <h2>DELMEN</h2>
+  <p>Shop smart. Shop easy.</p>
+  <p>© 2026 DELMEN. All rights reserved.</p>
+</footer>
+</body>
+</html>
