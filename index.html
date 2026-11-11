@@ -6,78 +6,105 @@
 <title>DELMEN | Online Shopping</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f7f8fc;color:#172033}
-header{background:#102b55;color:white;padding:18px 5%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:15px}
-.logo{font-size:28px;font-weight:800;letter-spacing:2px}
-nav a{color:white;text-decoration:none;margin:0 10px;font-size:14px}
-.hero{padding:55px 6%;background:linear-gradient(120deg,#102b55,#2466b5);color:white}
-.hero h1{font-size:42px;margin:0 0 12px}
-.hero p{font-size:17px}
-.search{display:flex;max-width:550px;margin-top:25px}
-.search input{flex:1;padding:14px;border:0;border-radius:8px 0 0 8px;font-size:15px;min-width:0}
-.search button{padding:14px 20px;border:0;background:#f4b942;color:#172033;font-weight:bold;border-radius:0 8px 8px 0}
-section{padding:30px 5%}
-h2{margin-bottom:20px}
-.categories{display:flex;gap:12px;flex-wrap:wrap}
-.category{background:white;padding:16px 22px;border-radius:12px;box-shadow:0 2px 10px #0000000c}
-.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px}
-.product{background:white;border-radius:13px;overflow:hidden;box-shadow:0 3px 14px #00000010}
-.product img{width:100%;height:170px;object-fit:cover;background:#e9edf5}
-.product-info{padding:14px}
-.price{font-weight:bold;color:#1455a0;font-size:19px}
-.product button{width:100%;padding:11px;border:0;background:#153d70;color:white;border-radius:7px;margin-top:10px}
-footer{text-align:center;background:#102b55;color:white;padding:25px}
+body{margin:0;font-family:Arial,sans-serif;background:#f5f6fa;color:#222}
+header{background:#111827;color:white;padding:18px 5%;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:26px;font-weight:bold;color:#facc15}
+nav a{color:white;text-decoration:none;margin-left:15px}
+.hero{text-align:center;padding:45px 15px;background:#e5e7eb}
+.hero h1{font-size:32px;margin:0 0 10px}
+.search{padding:13px;width:90%;max-width:450px;border:1px solid #ccc;border-radius:8px;margin-top:15px}
+main{padding:25px 5%}
+h2{margin-bottom:18px}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:18px}
+.card{background:white;border-radius:12px;overflow:hidden;box-shadow:0 2px 9px #0001}
+.card img{width:100%;height:180px;object-fit:cover;background:#eee}
+.info{padding:13px}
+.info h3{margin:5px 0;font-size:17px}
+.price{font-weight:bold;color:#087b45;font-size:18px}
+.muted{color:#777;font-size:13px}
+footer{text-align:center;padding:25px;background:#111827;color:white;margin-top:35px}
 </style>
 </head>
 <body>
 <header>
-  <div class="logo">DELMEN</div>
-  <nav>
-    <a href="#">Home</a>
-    <a href="#categories">Categories</a>
-    <a href="#products">Products</a>
-    <a href="#">Login</a>
-  </nav>
+<div class="logo">DELMEN</div>
+<nav><a href="#">Home</a><a href="#products">Products</a></nav>
 </header>
 
-<div class="hero">
-  <h1>Welcome to DELMEN</h1>
-  <p>Discover great products. Shop smart. Shop easy.</p>
-  <div class="search">
-    <input type="search" placeholder="Search products...">
-    <button>Search</button>
-  </div>
-</div>
-
-<section id="categories">
-  <h2>Shop by Category</h2>
-  <div class="categories">
-    <div class="category">👕 Fashion</div>
-    <div class="category">📱 Electronics</div>
-    <div class="category">🏠 Home</div>
-    <div class="category">⌚ Accessories</div>
-    <div class="category">🛍️ More</div>
-  </div>
+<section class="hero">
+<h1>Welcome to DELMEN</h1>
+<p>Shop smart. Shop easy.</p>
+<input class="search" id="search" placeholder="Search products...">
 </section>
 
-<section id="products">
-  <h2>Featured Products</h2>
-  <div class="products">
-    <div class="product">
-      <img src="https://placehold.co/400x300?text=DELMEN+Product" alt="Product">
-      <div class="product-info">
-        <h3>DELMEN Test Product</h3>
-        <p class="price">₹100</p>
-        <button>Add to Cart</button>
-      </div>
-    </div>
-  </div>
-</section>
+<main id="products">
+<h2>Our Products</h2>
+<div id="status">Loading products...</div>
+<div class="products" id="productList"></div>
+</main>
 
-<footer>
-  <h2>DELMEN</h2>
-  <p>Shop smart. Shop easy.</p>
-  <p>© 2026 DELMEN. All rights reserved.</p>
-</footer>
+<footer>© 2026 DELMEN. All rights reserved.</footer>
+
+<script>
+const SUPABASE_URL = "https://ruahltldjmgwvawjemjz.supabase.co";
+const SUPABASE_KEY = "sb_publishable_Os5W7DzczqybUijYunN2ig_HoyFkjAh";
+
+let products = [];
+
+async function loadProducts(){
+ const status = document.getElementById("status");
+ try{
+  const response = await fetch(
+   SUPABASE_URL + "/rest/v1/products?select=*&is_active=eq.true&order=created_at.desc",
+   {
+    headers:{
+     "apikey":SUPABASE_KEY,
+     "Authorization":"Bearer " + SUPABASE_KEY
+    }
+   }
+  );
+  if(!response.ok) throw new Error("Could not load products");
+  products = await response.json();
+  showProducts(products);
+ }catch(error){
+  status.textContent = "Products could not be loaded. Please try again.";
+ }
+}
+
+function showProducts(items){
+ const list = document.getElementById("productList");
+ document.getElementById("status").textContent =
+  items.length ? "" : "No products available yet.";
+ list.innerHTML = "";
+ items.forEach(product=>{
+  const card = document.createElement("div");
+  card.className = "card";
+  const img = document.createElement("img");
+  img.src = product.image_url || "https://placehold.co/400x300?text=DELMEN";
+  img.alt = product.name || "Product";
+  img.onerror = ()=>{img.src="https://placehold.co/400x300?text=DELMEN"};
+  const info = document.createElement("div");
+  info.className = "info";
+  const name = document.createElement("h3");
+  name.textContent = product.name || "Product";
+  const price = document.createElement("div");
+  price.className = "price";
+  price.textContent = "₹" + (product.price ?? "");
+  const description = document.createElement("p");
+  description.className = "muted";
+  description.textContent = product.description || "";
+  info.append(name,price,description);
+  card.append(img,info);
+  list.appendChild(card);
+ });
+}
+
+document.getElementById("search").addEventListener("input",e=>{
+ const q = e.target.value.toLowerCase();
+ showProducts(products.filter(p=>(p.name || "").toLowerCase().includes(q)));
+});
+
+loadProducts();
+</script>
 </body>
 </html>
